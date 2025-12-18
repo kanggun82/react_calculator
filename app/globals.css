@@ -1,26 +1,173 @@
-@import "tailwindcss";
+/* ---- Base ---- */
+:root{
+  --bg0:#0b1020;
+  --bg1:#0f1630;
+  --panel: rgba(255,255,255,.06);
+  --panel2: rgba(255,255,255,.10);
+  --text: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.65);
+  --shadow: 0 18px 60px rgba(0,0,0,.55);
+  --radius: 24px;
+  --gap: 12px;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --key: rgba(255,255,255,.09);
+  --keyHover: rgba(255,255,255,.13);
+  --keyActive: rgba(255,255,255,.18);
+
+  --util: rgba(255,255,255,.11);
+  --op: rgba(120,180,255,.20);
+  --eq: rgba(255,140,180,.24);
+
+  --border: rgba(255,255,255,.12);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 20% 10%, rgba(90,140,255,.22), transparent 60%),
+    radial-gradient(900px 520px at 80% 20%, rgba(255,120,190,.18), transparent 55%),
+    radial-gradient(900px 700px at 50% 110%, rgba(120,255,200,.10), transparent 55%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---- Layout ---- */
+.app{
+  min-height:100%;
+  display:grid;
+  place-items:center;
+  padding: 28px 18px;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.calculator{
+  width: min(420px, 96vw);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow:hidden;
+  backdrop-filter: blur(10px);
+}
+
+.calc-header{
+  padding: 18px 18px 12px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.06), transparent);
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.16);
+}
+.dot:nth-child(1){ background: rgba(255,105,135,.35); }
+.dot:nth-child(2){ background: rgba(255,200,90,.30); }
+.dot:nth-child(3){ background: rgba(120,255,190,.26); }
+
+.title{
+  margin-left: 6px;
+  letter-spacing: .3px;
+}
+
+/* ---- Display ---- */
+.display{
+  border-radius: 18px;
+  padding: 14px 14px 12px;
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.display__expression{
+  min-height: 18px;
+  font-size: 13px;
+  color: var(--muted);
+  text-align:right;
+  letter-spacing: .2px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.display__value{
+  margin-top: 6px;
+  font-size: 38px;
+  line-height: 1.05;
+  text-align:right;
+  font-weight: 750;
+  letter-spacing: .2px;
+}
+
+/* ---- Keypad ---- */
+.keypad{
+  padding: 16px 16px 18px;
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap);
+}
+
+.key{
+  height: 56px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: var(--key);
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow:
+    0 10px 22px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.12);
+  transition: transform .06s ease, background .15s ease, border-color .15s ease;
+}
+
+.key:hover{
+  background: var(--keyHover);
+  border-color: rgba(255,255,255,.18);
+}
+
+.key:active{
+  transform: translateY(1px) scale(.99);
+  background: var(--keyActive);
+}
+
+.key:focus-visible{
+  outline: 2px solid rgba(120,180,255,.55);
+  outline-offset: 2px;
+}
+
+.key--util{ background: var(--util); }
+.key--op{ background: var(--op); }
+.key--eq{ background: var(--eq); font-weight: 800; }
+
+.key--wide{
+  grid-column: span 2;
+}
+
+/* ---- Footer hint ---- */
+.hint{
+  padding: 0 16px 16px;
+  color: rgba(255,255,255,.55);
+  font-size: 12px;
+}
+.hint code{
+  color: rgba(255,255,255,.78);
+  background: rgba(255,255,255,.08);
+  padding: 2px 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,.10);
 }
